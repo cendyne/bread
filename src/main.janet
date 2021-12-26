@@ -21,8 +21,8 @@
 (def static-files {
     "/bread.aac" (static-response "bread.aac" "audio/aac")
     "/bread.avif" (static-response "bread.avif" "image/avif")
-    "/bread.bmp" (static-response "bread.bmp" "image/bmp"
-    "/bread.cpp" (static-response "bread.cpp" "text/x-c++src"))
+    "/bread.bmp" (static-response "bread.bmp" "image/bmp")
+    "/bread.cpp" (static-response "bread.cpp" "text/x-c++src")
     "/bread.css" (static-response "bread.css" "text/css")
     "/bread.csv" (static-response "bread.css" "text/csv")
     "/bread.flv" (static-response "bread.flv" "video/x-flv")
