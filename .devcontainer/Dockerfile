@@ -15,7 +15,9 @@ RUN git clone https://github.com/janet-lang/janet.git . && \
 WORKDIR /jpm
 RUN git clone --depth=1 https://github.com/janet-lang/jpm.git . && \
   PREFIX=/usr /usr/bin/janet bootstrap.janet
-
+COPY project.janet /tmp/setup/
+WORKDIR /tmp/setup/
+RUN jpm deps
 WORKDIR /
 
 # ** [Optional] Uncomment this section to install additional packages. **
