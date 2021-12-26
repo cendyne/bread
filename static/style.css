@@ -1,0 +1,42 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+body {
+    display: flex;
+    background-color: #000;
+    height: 100vh;
+    color: #ff7700;
+    font-family: 'Dosis','Helvetica', sans-serif;
+    font-size: 1.5em;
+}
+.container {
+    display:flex;
+    margin: auto;
+}
+.content {
+    margin:auto;
+    text-align: center;
+}
+a, a:visited {
+    color: #e1e1e1;
+}
+hr {
+    border: none;
+    border-bottom: 0.125em #343033 solid;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
