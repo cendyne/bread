@@ -22,7 +22,7 @@
     "/bread.aac" (static-response "bread.aac" "audio/aac")
     "/bread.avif" (static-response "bread.avif" "image/avif")
     "/bread.bmp" (static-response "bread.bmp" "image/bmp")
-    "/bread.cpp" (static-response "bread.cpp" "text/x-c++src")
+    "/bread.cpp" (static-response "bread.cpp" "text/plain")
     "/bread.css" (static-response "bread.css" "text/css")
     "/bread.csv" (static-response "bread.css" "text/csv")
     "/bread.flv" (static-response "bread.flv" "video/x-flv")
@@ -55,6 +55,7 @@
     "application/toml" (static-response "bread.toml" "text/plain")
     "application/x-sh" (static-response "bread.sh" "text/plain")
     "application/sql" (static-response "bread.sql" "text/plain")
+    "text/x-c++src" (static-response "bread.cpp" "text/plain")
 })
 
 (def content-types (do
@@ -83,7 +84,7 @@
                         (set resp (get content-types content-type))
                         )
                     (when resp
-                        (print "Content negotiated")
+                        (printf "Content negotiated %s" uri)
                         (set file resp))
                 ))))
     # No core match
