@@ -38,6 +38,7 @@
     "/bread.ogv" (static-response "bread.ogv" "video/ogv")
     "/bread.pdf" (static-response "bread.pdf" "application/pdf")
     "/bread.png" (static-response "bread.png" "image/png")
+    "/bread.rs" (static-response "bread.rs" "text/plain")
     "/bread.sh" (static-response "bread.sh" "text/plain")
     "/bread.sql" (static-response "bread.sql" "text/plain")
     "/bread.svg" (static-response "bread.svg" "image/svg+xml")
