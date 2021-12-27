@@ -49,6 +49,7 @@
     "/bread.wp2" (static-response "bread.wp2" "image/wp2")
     "/bread.xml" (static-response "bread.xml" "text/xml")
     "/bread.yml" (static-response "bread.yml" "text/plain")
+    "/bread.zst" (static-response "bread.zst" "application/zstd")
 })
 (def content-type-mapping {
     "application/x-yaml" (static-response "bread.yml" "text/plain")
