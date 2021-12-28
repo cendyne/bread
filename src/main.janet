@@ -25,6 +25,7 @@
     "/bread.aac" (static-response "bread.aac" "audio/aac")
     "/bread.avif" (static-response "bread.avif" "image/avif")
     "/bread.bmp" (static-response "bread.bmp" "image/bmp")
+    "/bread.c" (static-response "bread.c" "text/plain")
     "/bread.cpp" (static-response "bread.cpp" "text/plain")
     "/bread.css" (static-response "bread.css" "text/css")
     "/bread.csv" (static-response "bread.css" "text/csv")
@@ -64,6 +65,7 @@
     "application/x-sh" (static-response "bread.sh" "text/plain")
     "application/sql" (static-response "bread.sql" "text/plain")
     "text/x-c++src" (static-response "bread.cpp" "text/plain")
+    "text/x-csrc" (static-response "bread.c" "text/plain")
 })
 
 (def content-types (do
