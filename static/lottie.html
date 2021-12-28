@@ -23,10 +23,10 @@
     <meta name="twitter:description" content="It's dangerous to go alone! Take this baguette." />
     <meta name="twitter:image" content="https://bread.cendyne.dev/bread.gif" />
     <meta name="twitter:player" content="https://bread.cendyne.dev/video" />
-    <meta name="twitter:player:width" content="512" />
-    <meta name="twitter:player:height" content="512" />
     <meta name="twitter:player:stream" content="https://bread.cendyne.dev/bread.mp4" />
     <meta name="twitter:player:stream:content_type" content="video/mp4" />
+    <meta name="twitter:player:width" content="512" />
+    <meta name="twitter:player:height" content="512" />
     <meta name="twitter:creator" content="@CendyneNaga" />
     <meta name="theme-color" content="#ff7700" />
     <link rel="stylesheet" href="/style.css" />
@@ -34,17 +34,25 @@
 <body>
     <div class="container">
         <div class="content">
-            <video width="512" height="512" loop controls autoplay>
-                <source src="bread.webm" type="video/webm" />
-                <source src="bread.mp4" type="video/mp4" />
-                <source src="bread.ogv" type="video/ogv" />
-                <img src="bread.gif" alt="" />
-            </video>
+            <div id="sticker"></div>
+            <script src="lottie.min.js"></script>
+            <script charset="utf-8" type="text/javascript">
+                fetch('bread.lottie.json')
+                .then(res => res.json())
+                .then(out =>
+                    lottie.loadAnimation({
+                        container: document.getElementById('sticker'),
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        animationData: out
+                    }))
+            </script>
             <hr />
             Other formats:
             <a href="/">image</a>
+            <a href="video">video</a>
             <a href="audio">audio</a>
-            <a href="lottie">lottie</a>
             <a href="bread.svg">SVG</a>
             <a href="bread.json">JSON</a>
             <a href="bread.css">CSS</a>
