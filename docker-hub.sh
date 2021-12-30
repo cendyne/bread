@@ -8,6 +8,8 @@ echo "Guessing GITHUB_SHA"
 GITHUB_SHA=$(git rev-parse HEAD)
 fi
 
+echo "${GITHUB_SHA}" > static/version.txt
+
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
 
 echo "Building and pushing to"

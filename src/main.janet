@@ -17,6 +17,7 @@
     "/audio" (static-response "audio.html" "text/html")
     "/image" (static-response "index.html" "text/html")
     "/lottie" (static-response "lottie.html" "text/html")
+    "/version" (static-response "version.txt" "text/plain")
     "/lottie.min.js" (static-response "lottie.min.js" "application/javascript")
     "/style.css" (static-response "style.css" "text/css")
 })
