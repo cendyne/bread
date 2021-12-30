@@ -1,0 +1,9 @@
+.DS_Store
+build
+.devcontainer
+.github
+LICENSE.txt
+docker-hub.sh
+docker-compose.yml
+.gitignore
+readme.md

@@ -9,7 +9,14 @@
     ]
   )
 
+(declare-native
+  :name "_bread"
+  :source @[
+    "helper.c"
+    ])
+
 (declare-executable
   :name "bread"
-  :entry "src/main.janet"
+  :entry "main.janet"
+  :deps ["build/_bread.a"]
   )

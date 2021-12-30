@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Feed Glitch Bread</title>
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="video" />
     <meta property="og:title" content="Feed Glitch Bread" />
     <meta property="og:description" content="It's dangerous to go alone! Take this baguette." />
     <meta property="og:url" content="https://bread.cendyne.dev/" />
@@ -10,7 +10,6 @@
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
     <meta property="og:video" content="https://bread.cendyne.dev/bread.mp4" />
-    <meta property="og:video:secure_url" content="https://bread.cendyne.dev/bread.mp4" />
     <meta property="og:video:type" content="video/mp4" />
     <meta property="og:video:width" content="512" />
     <meta property="og:video:height" content="512" />
@@ -32,15 +31,16 @@
 <body>
     <div class="container">
         <div class="content">
-            <video width="512" height="512" loop controls autoplay>
-                <source src="bread.webm" type="video/webm" />
-                <source src="bread.mp4" type="video/mp4" />
-                <source src="bread.ogv" type="video/ogv" />
-                <img src="bread.gif" alt="" />
-            </video>
+            <picture>
+                <source type="image/avif" src="bread.avif" />
+                <source type="image/wp2" src="bread.wp2" />
+                <source type="image/jxl" src="bread.jxl" />
+                <source type="image/webp" src="bread.webp" />
+                <img src="bread.gif" alt="baguette" width="512" height="512" />
+            </picture>
             <hr />
             Other formats:
-            <a href="/">image</a>
+            <a href="video">video</a>
             <a href="audio">audio</a>
             <a href="lottie">lottie</a>
             <a href="bread.svg">SVG</a>
