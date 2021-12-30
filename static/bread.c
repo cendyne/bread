@@ -12,7 +12,7 @@ int main() {
             printf("Baguette\n");
         }
         else {
-            printf("Mow\n", i);
+            printf("Mow\n");
         }
     }
     return 0;
