@@ -70,6 +70,7 @@
     "/image" (static-response "index.html" "text/html")
     "/lottie" (static-response "lottie.html" "text/html")
     "/version" (static-response "version.txt" "text/plain")
+    "/test" (static-response "test.html" "text/html")
 })
 
 (def content-type-mapping {
