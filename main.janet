@@ -271,8 +271,8 @@
             })
             (var body req)
             (def accept (or 
-                    (get-in req [:headers "accept"])
-                    (get-in req [:headers "accept"])
+                    (get-in request [:headers "accept"])
+                    (get-in request [:headers "Accept"])
                     ""))
             (cond
                 (string/has-prefix? "image/avif" accept)
