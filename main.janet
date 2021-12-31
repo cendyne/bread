@@ -32,6 +32,7 @@
     "ogv" "video/ogv"
     "pdf" "application/pdf"
     "png" "image/png"
+    "py" "text/x-python"
     "svg" "image/svg+xml"
     "swf" "application/x-shockwave-flash"
     "tgs" "application/octet-stream"
