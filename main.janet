@@ -6,7 +6,9 @@
     :status 200
     :kind :file
     :file (string "static/" name)
-    :mime mime
+    :headers {
+        "Content-Type" mime
+    }
 })
 
 (def extensions {
