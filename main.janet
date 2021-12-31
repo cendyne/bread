@@ -230,7 +230,7 @@
 
 (defn app
     [files request]
-    (def uri (get request :uri))
+    (def uri (or (get request :path) (get request :uri)))
     (var file nil)
     (when uri
         (set file (get core-static-files uri))
