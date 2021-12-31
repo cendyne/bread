@@ -128,7 +128,7 @@
     ]
 ])
 (def video [
-    [:video {:width "512" :height "512" :loop true :controls true :autoplay true}
+    [:video {:width "512" :height "512" :loop :boolean-attribute? :controls :boolean-attribute? :autoplay :boolean-attribute?}
         [:source {:type "video/webm" :src "bread.webm"}]
         [:source {:type "video/mp4" :src "bread.mp4"}]
         [:source {:type "video/ogv" :src "bread.ogv"}]
@@ -136,7 +136,7 @@
     ]
 ])
 (def audio [
-    [:audio {:loop true :controls true :autoplay true}
+    [:audio {:loop :boolean-attribute? :controls :boolean-attribute? :autoplay :boolean-attribute?}
         [:source {:type "audio/m4a" :src "bread.m4a"}]
         [:source {:type "audio/ogg" :src "bread.ogg"}]
         [:source {:type "audio/aac" :src "bread.aac"}]

@@ -6,7 +6,7 @@
   :repo "git+https://github.com/cendyne/bread"
   :dependencies [
     "https://github.com/cendyne/halo2.git"
-    "https://github.com/swlkr/janet-html.git"
+    "https://github.com/cendyne/janet-html.git"
     ]
   )
 
