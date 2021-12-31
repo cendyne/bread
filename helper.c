@@ -16,7 +16,7 @@ int classify_string(const uint8_t * data, int32_t length)
     uint8_t first = *data++;
     if (first == 0)
     {
-      janet_printf("Binary because 0\n");
+      // janet_printf("Binary because 0\n");
       binary = 1;
       break;
     }
@@ -29,7 +29,7 @@ int classify_string(const uint8_t * data, int32_t length)
     else if (first < ' ')
     {
       // But the other values there are just terminal control codes.
-      janet_printf("Binary because terminal control codes\n");
+      // janet_printf("Binary because terminal control codes\n");
       binary = 1;
       break;
     }
@@ -48,7 +48,7 @@ int classify_string(const uint8_t * data, int32_t length)
     uint8_t second = *data++;
     if ((second >> 6) != 2)
     {
-      janet_printf("Binary because invalid utf8 %d %d\n", first, second);
+      // janet_printf("Binary because invalid utf8 %d %d\n", first, second);
       binary = 1;
       break;
     }
@@ -66,7 +66,7 @@ int classify_string(const uint8_t * data, int32_t length)
     uint8_t third = *data++;
     if ((third >> 6) != 2)
     {
-      janet_printf("Binary because invalid utf8 %d %d %d\n", first, second, third);
+      // janet_printf("Binary because invalid utf8 %d %d %d\n", first, second, third);
       binary = 1;
       break;
     }
@@ -84,7 +84,7 @@ int classify_string(const uint8_t * data, int32_t length)
     uint8_t fourth = *data++;
     if ((fourth >> 6) != 2)
     {
-      janet_printf("Binary because invalid utf8 %d %d %d %d\n", first, second, third, fourth);
+      // janet_printf("Binary because invalid utf8 %d %d %d %d\n", first, second, third, fourth);
       binary = 1;
       break;
     }
@@ -94,7 +94,7 @@ int classify_string(const uint8_t * data, int32_t length)
       continue;
     }
 
-    janet_printf("Binary because not utf8\n");
+    // janet_printf("Binary because not utf8\n");
     binary = 1;
 
     break;
@@ -122,7 +122,7 @@ static Janet is_binary(int32_t argc, Janet * argv) {
     }
     JanetByteView view;
     if (!janet_bytes_view(input, &view.bytes, &view.len)) {
-        janet_printf("Binary because could not make byte view\n");
+        // janet_printf("Binary because could not make byte view\n");
         return janet_wrap_boolean(1);
     }
     return janet_wrap_boolean(classify_string(view.bytes, view.len));

@@ -5,7 +5,8 @@
   :url "https://github.com/cendyne/bread"
   :repo "git+https://github.com/cendyne/bread"
   :dependencies [
-    "https://github.com/janet-lang/circlet.git"
+    "https://github.com/joy-framework/halo2.git"
+    "https://github.com/swlkr/janet-html.git"
     ]
   )
 

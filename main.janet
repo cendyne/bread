@@ -1,4 +1,5 @@
-(import circlet)
+(import halo2)
+(import janet-html :as "html")
 (import ./build/_bread)
 
 (defn static-response [name mime] {
@@ -49,7 +50,7 @@
             (var bytes false)
             (with [f (file/open (string "static/" file))]
                 (def head (file/read f 1024))
-                (printf "Binary detect %s" file)
+                # (printf "Binary detect %s" file)
                 (if (_bread/is-binary head)
                     (set content-type "application/octet-stream")
                     (set content-type "text/plain")
@@ -64,13 +65,13 @@
     (freeze result)))
 
 (def core-static-files {
-    "/" (static-response "index.html" "text/html")
-    "/video" (static-response "video.html" "text/html")
-    "/audio" (static-response "audio.html" "text/html")
-    "/image" (static-response "index.html" "text/html")
-    "/lottie" (static-response "lottie.html" "text/html")
+    # "/" (static-response "index.html" "text/html")
+    # "/video" (static-response "video.html" "text/html")
+    # "/audio" (static-response "audio.html" "text/html")
+    # "/image" (static-response "index.html" "text/html")
+    # "/lottie" (static-response "lottie.html" "text/html")
+    # "/test" (static-response "test.html" "text/html")
     "/version" (static-response "version.txt" "text/plain")
-    "/test" (static-response "test.html" "text/html")
 })
 
 (def content-type-mapping {
@@ -81,6 +82,146 @@
     "text/x-c++src" (static-response "bread.cpp" "text/plain")
     "text/x-csrc" (static-response "bread.c" "text/plain")
 })
+
+(defn opengraph-meta [uri title desc] [
+    [:meta {:property "og:type" :content "website"}]
+    [:meta {:property "og:title" :content title}]
+    [:meta {:property "og:description" :content desc}]
+    [:meta {:property "og:url" :content (string "https://bread.cendyne.dev" uri)}]
+])
+(def opengraph-image [
+    [:meta {:property "og:image" :content "https://bread.cendyne.dev/bread.gif"}]
+    [:meta {:property "og:image:secure_url" :content "https://bread.cendyne.dev/bread.gif"}]
+    [:meta {:property "og:image:width" :content "512"}]
+    [:meta {:property "og:image:height" :content "512"}]
+])
+(def opengraph-video [
+    [:meta {:property "og:video" :content "https://bread.cendyne.dev/bread.mp4"}]
+    [:meta {:property "og:video:secure_url" :content "https://bread.cendyne.dev/bread.mp4"}]
+    [:meta {:property "og:video:type" :content "video/mp4"}]
+    [:meta {:property "og:video:width" :content "512"}]
+    [:meta {:property "og:video:height" :content "512"}]
+])
+(def twitter-card [
+    [:meta {:name "twitter:domain" :content "cendyne.dev"}]
+    [:meta {:name "twitter:url" :content "https://cendyne.dev"}]
+    [:meta {:name "twitter:card" :content "player"}]
+    [:meta {:name "twitter:title" :content "Feed Glitch Bread"}]
+    [:meta {:name "twitter:description" :content "It's dangerous to go alone! Take this baguette."}]
+    [:meta {:name "twitter:image" :content "https://bread.cendyne.dev/bread.gif"}]
+    [:meta {:name "twitter:player" :content "https://bread.cendyne.dev/video"}]
+    [:meta {:name "twitter:player:width" :content "512"}]
+    [:meta {:name "twitter:player:height" :content "512"}]
+    [:meta {:name "twitter:player:stream" :content "https://bread.cendyne.dev/bread.mp4"}]
+    [:meta {:name "twitter:player:stream:content_type" :content "video/mp4"}]
+    [:meta {:name "twitter:creator" :content "@CendyneNaga"}]
+])
+(def picture [
+    [:picture
+        [:source {:type "image/avif" :src "bread.avif"}]
+        [:source {:type "image/wp2" :src "bread.wp2"}]
+        [:source {:type "image/jxl" :src "bread.jxl"}]
+        [:source {:type "image/webp" :src "bread.webp"}]
+        [:img {:src "bread.gif" :alt "baguette" :width "512" :height "512"}]
+    ]
+])
+(def video [
+    [:video {:width "512" :height "512" :loop true :controls true :autoplay true}
+        [:source {:type "video/webm" :src "bread.webm"}]
+        [:source {:type "video/mp4" :src "bread.mp4"}]
+        [:source {:type "video/ogv" :src "bread.ogv"}]
+        [:img {:src "bread.gif" :alt "baguette" :width "512" :height "512"}]
+    ]
+])
+(def audio [
+    [:audio {:loop true :controls true :autoplay true}
+        [:source {:type "audio/m4a" :src "bread.m4a"}]
+        [:source {:type "audio/ogg" :src "bread.ogg"}]
+        [:source {:type "audio/aac" :src "bread.aac"}]
+        [:source {:type "audio/mpeg" :src "bread.mp3"}]
+        [:img {:src "bread.gif" :alt "baguette" :width "512" :height "512"}]
+    ]
+])
+
+(defn page [uri title desc head body]
+    [
+        (html/doctype :html5)
+        [:html
+            [:head
+                [:title title]
+                (opengraph-meta uri title desc)
+                head
+                [:meta {:name "theme-color" :content "#ff7700"}]
+                [:link {:rel "stylesheet" :href "/style.css"}]
+            ]
+        ]
+        [:body
+            [:div {:class "container"}
+                [:div {:class "content"}
+                    body
+                ]
+            ]
+        ]
+    ]
+)
+
+(defn ua-page [request title desc content]
+    # (printf "%p" request)
+    (def uri (get request :uri))
+    (def ua (get-in request [:headers "User-Agent"]))
+    (html/encode (page uri title desc
+        [
+            (opengraph-meta uri title desc)
+            opengraph-image
+            opengraph-video
+            (when (and ua (string/find "Twitterbot" ua)) twitter-card)
+        ]
+        content)))
+(def title "Feed Glitch Bread")
+(def description "It's dangerous to go alone! Take this baguette.")
+(def other-formats [
+    ["/" "image"]
+    ["/audio" "audio"]
+    ["/video" "video"]
+    ["/lottie" "lottie"]
+    ["/bread.svg" "SVG"]
+    ["/bread.json" "JSON"]
+    ["/bread.rs" "Rust"]
+])
+(defn other-formats-list [except] [
+    "Other formats: "
+    (seq [format :in other-formats
+        :let [[href label] format]
+        :when (not= except href)]
+        [[:a {:href href} label] " "])
+    " and more"
+])
+(defn index-page [request]
+    (ua-page request title description [
+        picture
+        [:hr]
+        (other-formats-list (get request :uri))
+    ]))
+(defn video-page [request]
+    (ua-page request title description [
+        video
+        [:hr]
+        (other-formats-list (get request :uri))
+    ]))
+(defn audio-page [request]
+    (ua-page request title description [
+        audio
+        [:hr]
+        (other-formats-list (get request :uri))
+    ]))
+(defn lottie-page [request]
+    (ua-page request title description [
+        [:div {:id "sticker"}]
+        [:script {:src "lottie.min.js"}]
+        [:script {:src "bread.lottie.js"}]
+        [:hr]
+        (other-formats-list (get request :uri))
+    ]))
 
 (defn app
     [files request]
@@ -93,12 +234,37 @@
     (printf "%s %s" (get request :method) (get request :uri))
     (cond
         file file
-        (= "/" uri) (static-response "index.html" "text/html")
+        (= "/" uri) {
+            :headers {
+                "Content-Type" "text/html"
+            }
+            :body (index-page request)
+        }
+        (= "/video" uri) {
+            :headers {
+                "Content-Type" "text/html"
+            }
+            :body (video-page request)
+        }
+        (= "/audio" uri) {
+            :headers {
+                "Content-Type" "text/html"
+            }
+            :body (audio-page request)
+        }
+        (= "/lottie" uri) {
+            :headers {
+                "Content-Type" "text/html"
+            }
+            :body (lottie-page request)
+        }
         true {
             :status 404
             :body "Not Found"
         }
     ))
+
+
 
 (defn main [& args]
     (let [port (scan-number (get args 1 (or (os/getenv "PORT") "8000")))
@@ -107,5 +273,5 @@
         (printf "Listening on %s:%d" host port)
         (def files (loaded-files))
         (defn loaded-app [request] (app files request))
-        (circlet/server loaded-app port host)
+        (halo2/server loaded-app port host)
     ))
