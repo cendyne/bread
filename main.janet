@@ -261,6 +261,12 @@
             }
             :body (lottie-page request)
         }
+        (string/has-prefix? "/dump/" uri) {
+            :headers {
+                "Content-Type" "text/plain"
+            }
+            :body (string/format "%p" request)
+        }
         true {
             :status 404
             :body "Not Found"
