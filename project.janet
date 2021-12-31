@@ -7,6 +7,7 @@
   :dependencies [
     "https://github.com/cendyne/halo2.git"
     "https://github.com/cendyne/janet-html.git"
+    "https://github.com/andrewchambers/janet-base16.git"
     ]
   )
 

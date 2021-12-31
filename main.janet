@@ -1,4 +1,5 @@
 (import halo2)
+(import base16)
 (import janet-html :as "html")
 (import ./build/_bread)
 
@@ -261,12 +262,45 @@
             }
             :body (lottie-page request)
         }
-        (string/has-prefix? "/dump/" uri) {
-            :headers {
+        (string/has-prefix? "/dump/" uri)
+        (do
+            (def req (string/format "%p" request))
+            (def headers @{
                 "Content-Type" "text/plain"
+                "Accept-CH" "Viewport-Width, Width, DPR, Sec-CH-UA-Full-Version-List"
+            })
+            (var body req)
+            (def accept (or 
+                    (get-in req [:headers "accept"])
+                    (get-in req [:headers "accept"])
+                    ""))
+            (cond
+                (string/has-prefix? "image/avif" accept)
+                (do 
+                    (set body (slurp "static/bread.avif"))
+                    (put headers "X-Dump" (base16/encode req))
+                    (put headers "Content-Type" "image/avif"))
+                (string/has-prefix? "image/webp" accept)
+                (do 
+                    (set body (slurp "static/bread.webp"))
+                    (put headers "X-Dump" (base16/encode req))
+                    (put headers "Content-Type" "image/webp"))
+                (string/has-prefix? "image/gif" accept)
+                (do 
+                    (set body (slurp "static/bread.gif"))
+                    (put headers "X-Dump" (base16/encode req))
+                    (put headers "Content-Type" "image/gif"))
+                (string/has-prefix? "image/jpeg" accept)
+                (do 
+                    (set body (slurp "static/bread.jpg"))
+                    (put headers "X-Dump" (base16/encode req))
+                    (put headers "Content-Type" "image/jpeg"))
+            )
+            {
+                :headers headers
+                :body body
             }
-            :body (string/format "%p" request)
-        }
+        )
         true {
             :status 404
             :body "Not Found"
