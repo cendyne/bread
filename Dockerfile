@@ -4,7 +4,7 @@ COPY project.janet /bread/
 WORKDIR /bread/
 RUN jpm deps
 COPY . /bread/
-RUN jpm build
+RUN jpm build && jpm build
 
 FROM alpine as app
 COPY --from=builder /bread/build/bread /usr/local/bin/
