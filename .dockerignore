@@ -1,9 +1,9 @@
+.git
 .DS_Store
 build
-.devcontainer
 .github
-LICENSE.txt
-docker-hub.sh
-docker-compose.yml
+.devcontainer
 .gitignore
-readme.md
+docker-compose.yml
+docker-hub.sh
+LICENSE.txt
