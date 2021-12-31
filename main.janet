@@ -168,7 +168,8 @@
 (defn ua-page [request title desc content]
     # (printf "%p" request)
     (def uri (get request :uri))
-    (def ua (get-in request [:headers "User-Agent"]))
+    (var ua (get-in request [:headers "User-Agent"]))
+    (unless ua (set ua (get-in request [:headers "user-agent"])))
     (html/encode (page uri title desc
         [
             (opengraph-meta uri title desc)
