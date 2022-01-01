@@ -87,36 +87,36 @@
     "text/x-csrc" (static-response "bread.c" "text/plain")
 })
 
-(defn opengraph-meta [uri title desc] [
+(defn opengraph-meta [host uri title desc] [
     [:meta {:property "og:type" :content "website"}]
     [:meta {:property "og:title" :content title}]
     [:meta {:property "og:description" :content desc}]
-    [:meta {:property "og:url" :content (string "https://bread.cendyne.dev" uri)}]
+    [:meta {:property "og:url" :content (string "https://" host uri)}]
 ])
-(def opengraph-image [
-    [:meta {:property "og:image" :content "https://bread.cendyne.dev/bread.gif"}]
-    [:meta {:property "og:image:secure_url" :content "https://bread.cendyne.dev/bread.gif"}]
+(defn opengraph-image [host] [
+    [:meta {:property "og:image" :content (string "https://" host "/bread.gif")}]
+    [:meta {:property "og:image:secure_url" :content (string "https://" host "/bread.gif")}]
     [:meta {:property "og:image:width" :content "512"}]
     [:meta {:property "og:image:height" :content "512"}]
 ])
-(def opengraph-video [
-    [:meta {:property "og:video" :content "https://bread.cendyne.dev/bread.mp4"}]
-    [:meta {:property "og:video:secure_url" :content "https://bread.cendyne.dev/bread.mp4"}]
+(defn opengraph-video [host] [
+    [:meta {:property "og:video" :content (string "https://" host "/bread.mp4")}]
+    [:meta {:property "og:video:secure_url" :content (string "https://" host "/bread.mp4")}]
     [:meta {:property "og:video:type" :content "video/mp4"}]
     [:meta {:property "og:video:width" :content "512"}]
     [:meta {:property "og:video:height" :content "512"}]
 ])
-(def twitter-card [
-    [:meta {:name "twitter:domain" :content "cendyne.dev"}]
-    [:meta {:name "twitter:url" :content "https://cendyne.dev"}]
+(defn twitter-card [host title desc] [
+    [:meta {:name "twitter:domain" :content host}]
+    [:meta {:name "twitter:url" :content (string "https://" host)}]
     [:meta {:name "twitter:card" :content "player"}]
-    [:meta {:name "twitter:title" :content "Feed Glitch Bread"}]
-    [:meta {:name "twitter:description" :content "It's dangerous to go alone! Take this baguette."}]
-    [:meta {:name "twitter:image" :content "https://bread.cendyne.dev/bread.gif"}]
-    [:meta {:name "twitter:player" :content "https://bread.cendyne.dev/video"}]
+    [:meta {:name "twitter:title" :content title}]
+    [:meta {:name "twitter:description" :content desc}]
+    [:meta {:name "twitter:image" :content (string "https://" host "/bread.gif")}]
+    [:meta {:name "twitter:player" :content (string "https://" host "/video")}]
     [:meta {:name "twitter:player:width" :content "512"}]
     [:meta {:name "twitter:player:height" :content "512"}]
-    [:meta {:name "twitter:player:stream" :content "https://bread.cendyne.dev/bread.mp4"}]
+    [:meta {:name "twitter:player:stream" :content (string "https://" host "/bread.mp4")}]
     [:meta {:name "twitter:player:stream:content_type" :content "video/mp4"}]
     [:meta {:name "twitter:creator" :content "@CendyneNaga"}]
 ])
@@ -147,13 +147,12 @@
     ]
 ])
 
-(defn page [uri title desc head body]
+(defn page [host uri title desc head body]
     [
         (html/doctype :html5)
         [:html
             [:head
                 [:title title]
-                (opengraph-meta uri title desc)
                 head
                 [:meta {:name "theme-color" :content "#ff7700"}]
                 [:link {:rel "stylesheet" :href "/style.css"}]
@@ -162,7 +161,10 @@
         [:body
             [:div {:class "container"}
                 [:div {:class "content"}
-                    body
+                    [
+                        body
+                        [:img {:src (string "https://la.cendyne.dev/" host uri) :alt "" :width "1" :height "1"}]
+                    ]
                 ]
             ]
         ]
@@ -173,13 +175,14 @@
     # (printf "%p" request)
     (def uri (get request :uri))
     (var ua (get-in request [:headers "User-Agent"]))
+    (var host (or (get-in request [:headers "Host"]) (get-in request [:headers "host"]) "bread.cendyne.dev"))
     (unless ua (set ua (get-in request [:headers "user-agent"])))
-    (html/encode (page uri title desc
+    (html/encode (page host uri title desc
         [
-            (opengraph-meta uri title desc)
-            opengraph-image
-            opengraph-video
-            (when (and ua (string/find "Twitterbot" ua)) twitter-card)
+            (opengraph-meta host uri title desc)
+            (opengraph-image host)
+            (opengraph-video host)
+            (when (and ua (string/find "Twitterbot" ua)) (twitter-card host title desc))
         ]
         content)))
 (def title "Feed Glitch Bread")
@@ -263,45 +266,6 @@
             }
             :body (lottie-page request)
         }
-        (string/has-prefix? "/dump/" uri)
-        (do
-            (def req (string/format "%p" request))
-            (def headers @{
-                "Content-Type" "text/plain"
-                "Accept-CH" "Viewport-Width, Width, DPR, Sec-CH-UA-Full-Version-List"
-            })
-            (var body req)
-            (def accept (or 
-                    (get-in request [:headers "accept"])
-                    (get-in request [:headers "Accept"])
-                    ""))
-            (cond
-                (string/has-prefix? "image/avif" accept)
-                (do 
-                    (set body (slurp "static/bread.avif"))
-                    (put headers "X-Dump" (base16/encode req))
-                    (put headers "Content-Type" "image/avif"))
-                (string/has-prefix? "image/webp" accept)
-                (do 
-                    (set body (slurp "static/bread.webp"))
-                    (put headers "X-Dump" (base16/encode req))
-                    (put headers "Content-Type" "image/webp"))
-                (string/has-prefix? "image/gif" accept)
-                (do 
-                    (set body (slurp "static/bread.gif"))
-                    (put headers "X-Dump" (base16/encode req))
-                    (put headers "Content-Type" "image/gif"))
-                (string/has-prefix? "image/jpeg" accept)
-                (do 
-                    (set body (slurp "static/bread.jpg"))
-                    (put headers "X-Dump" (base16/encode req))
-                    (put headers "Content-Type" "image/jpeg"))
-            )
-            {
-                :headers headers
-                :body body
-            }
-        )
         true {
             :status 404
             :body "Not Found"
