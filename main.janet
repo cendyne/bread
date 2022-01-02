@@ -120,13 +120,13 @@
     [:meta {:name "twitter:player:stream:content_type" :content "video/mp4"}]
     [:meta {:name "twitter:creator" :content "@CendyneNaga"}]
 ])
-(def picture [
+(defn picture [file] [
     [:picture
-        [:source {:type "image/avif" :src "bread.avif"}]
-        [:source {:type "image/wp2" :src "bread.wp2"}]
-        [:source {:type "image/jxl" :src "bread.jxl"}]
-        [:source {:type "image/webp" :src "bread.webp"}]
-        [:img {:src "bread.gif" :alt "baguette" :width "512" :height "512"}]
+        [:source {:type "image/avif" :srcset (string file ".avif")}]
+        [:source {:type "image/wp2" :srcset (string file ".wp2")}]
+        [:source {:type "image/jxl" :srcset (string file ".jxl")}]
+        [:source {:type "image/webp" :srcset (string file ".webp")}]
+        [:img {:src (string file ".gif") :alt "baguette" :width "512" :height "512"}]
     ]
 ])
 (def video [
@@ -204,9 +204,21 @@
         [[:a {:href href} label] " "])
     " and more"
 ])
+(def bread-options [
+    "bread"
+    "bread-burner"
+    "bread-cendyne"
+    "bread-lewis"
+    "bread-nic"
+    "bread-sparky"
+    "bread-zenith"
+    ])
 (defn index-page [request]
+    (def bread-index (math/rng-int (math/rng (os/time)) (length bread-options)))
+    (def bread-choice (get bread-options bread-index "bread"))
+    
     (ua-page request title description [
-        picture
+        (picture bread-choice)
         [:hr]
         (other-formats-list (get request :uri))
     ]))
