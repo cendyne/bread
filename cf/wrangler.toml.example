@@ -1,0 +1,7 @@
+name = "cf"
+main = "src/index.ts"
+compatibility_date = "2022-07-03"
+
+[site]
+bucket = "../static"
+
