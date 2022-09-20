@@ -71,6 +71,7 @@ function wrapHtml(request: Request, body: string) : string {
   <meta content="@CendyneNaga" name="twitter:creator" />`) : ''}
   <meta content="#ff7700" name="theme-color" />
   <link rel="stylesheet" href="/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <div class="container">
