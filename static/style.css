@@ -34,6 +34,7 @@ body {
 }
 a, a:visited {
     color: #e1e1e1;
+    padding: 2em;
 }
 hr {
     border: none;
