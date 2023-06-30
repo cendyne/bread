@@ -105,7 +105,8 @@ async function rootResponse(request: Request) : Promise<Response> {
       <a href="/bread.rs">Rust</a>
       and more`), {
     headers: new Headers([
-      ['content-type', 'text/html']
+      ['content-type', 'text/html'],
+      ['x-robots-tag', 'noindex']
     ])
   })
 }
@@ -129,7 +130,8 @@ async function audioResponse(request: Request) : Promise<Response> {
     <a href="/bread.rs">Rust</a>
     and more`), {
     headers: new Headers([
-      ['content-type', 'text/html']
+      ['content-type', 'text/html'],
+      ['x-robots-tag', 'noindex']
     ])
   })
 }
@@ -149,7 +151,8 @@ async function lottieResponse(request: Request) : Promise<Response> {
   <a href="/bread.rs">Rust</a>
   and more`), {
     headers: new Headers([
-      ['content-type', 'text/html']
+      ['content-type', 'text/html'],
+      ['x-robots-tag', 'noindex']
     ])
   })
 }
@@ -172,7 +175,8 @@ async function videoResponse(request: Request) : Promise<Response> {
     <a href="/bread.rs">Rust</a>
     and more`), {
     headers: new Headers([
-      ['content-type', 'text/html']
+      ['content-type', 'text/html'],
+      ['x-robots-tag', 'noindex']
     ])
   })
 }
@@ -195,6 +199,7 @@ export default {
             }
           }
         }
+        response.headers.set('x-robots-tag', 'noindex');
         return response;
       } catch (e) {
         // File not found
