@@ -189,6 +189,9 @@ export default {
   ): Promise<Response> {
     if (request.method == 'GET' || request.method == 'HEAD') {
       let {pathname} = new URL(request.url);
+      if (pathname == '/robots.txt') {
+        return new Response('User-agent: *\nDisallow: /');
+      }
       try {
         let response : Response = await asset(request, env, ctx);
         if ((response.headers.get('content-type') || '').startsWith('application/')) {
